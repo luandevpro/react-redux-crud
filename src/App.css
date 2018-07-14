@@ -29,3 +29,14 @@
 .mt-15 {
   margin-top: 15px;
 }
+.ml {
+  margin-left: 5px;
+}
+.tick::after {
+  font-family: FontAwesome;
+  content: "\f00c";
+  font-weight: normal;
+  font-style: normal;
+  margin: 0px 0px 0px 10px;
+  display: inline-block;
+}

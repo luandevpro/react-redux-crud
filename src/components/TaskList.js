@@ -1,7 +1,30 @@
 import React, { Component } from "react";
+import TaskItem from "./TaskItem";
 
 class TaskList extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      filterName: '',
+      filterStatus: -1
+    }
+  }
+  onChange = (e) => {
+    var target = e.target;
+    var name = target.name;
+    var value = target.value;
+    this.setState(
+      {
+        [name]: value
+      },
+      () => this.props.onFilter(
+        name === 'filterName' ? value : this.state.filterName,
+        name === 'filterStatus' ? value : this.state.filterStatus
+      )
+    )
+  }
   render() {
+    const {tasks ,updateStatus ,removeTasks ,onUpdateTasks} = this.props;
     return (
       <div className="row mt-15">
         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -18,34 +41,41 @@ class TaskList extends Component {
               <tr>
                 <td />
                 <td>
-                  <input type="text" className="form-control" />
+                  <input 
+                    type="text" 
+                    className="form-control" 
+                    name="filterName"
+                    value={this.state.filterName}
+                    onChange={this.onChange}
+                  />
                 </td>
                 <td>
-                  <select className="form-control">
-                    <option value="-1">Tất Cả</option>
-                    <option value="0">Ẩn</option>
-                    <option value="1">Kích Hoạt</option>
+                  <select 
+                    className="form-control"
+                    name="filterStatus"
+                    value={this.state.filterStatus}
+                    onChange={this.onChange}
+                  >
+                    <option value={-1}>Tất Cả</option>
+                    <option value={0}>Ẩn</option>
+                    <option value={1}>Kích Hoạt</option>
                   </select>
                 </td>
                 <td />
               </tr>
-              <tr>
-                <td>1</td>
-                <td>Học lập trình</td>
-                <td className="text-center">
-                  <span className="label label-success">Kích Hoạt</span>
-                </td>
-                <td className="text-center">
-                  <button type="button" className="btn btn-warning">
-                    <span className="fa fa-pencil mr-5" />Sửa
-                  </button>
-                  &nbsp;
-                  <button type="button" className="btn btn-danger">
-                    <span className="fa fa-trash mr-5" />Xóa
-                  </button>
-                </td>
-              </tr>
-            </tbody>
+              {
+                tasks.map((task,index) => {
+                  return <TaskItem 
+                            key={index} 
+                            tasks={task} 
+                            index={index} 
+                            updateStatus={updateStatus} 
+                            removeTasks={removeTasks}
+                            onUpdateTasks={onUpdateTasks}
+                          />
+                })
+              }
+            </tbody>          
           </table>
         </div>
       </div>

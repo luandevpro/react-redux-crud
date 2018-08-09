@@ -34,7 +34,7 @@ const appReducers = (state = initialState , action) => {
             index = findIndex(state, newTasks.id)
             state[index] = action.tasks
          }else {
-            action.tasks.id = randomstring.generate()
+            newTasks.id = randomstring.generate()
             state.push(newTasks)
          }     
          localStorage.setItem('tasks', JSON.stringify(state))

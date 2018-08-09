@@ -4,11 +4,12 @@ class TaskItem extends Component {
   updateStatus = () => {
     this.props.updateStatus(this.props.tasks.id);
   }
-  removeTasks = () => {
-    this.props.removeTasks(this.props.tasks.id);
+  deleteTasks = () => {
+    this.props.deleteTasks(this.props.tasks.id);
   }
-  onUpdateTasks = () => {
-    this.props.onUpdateTasks(this.props.tasks.id);
+  editTasks = () => {
+    this.props.editTasks(this.props.tasks);
+    this.props.openForm();
   }
   render() {
     const {tasks , index }  = this.props ;
@@ -23,11 +24,11 @@ class TaskItem extends Component {
             </span>
           </td>
           <td className="text-center">
-            <button type="button" className="btn btn-warning" onClick={this.onUpdateTasks}>
+            <button type="button" className="btn btn-warning" onClick={this.editTasks}>
               <span className="fa fa-pencil mr-5" />Sửa
             </button>
             &nbsp;
-            <button type="button" className="btn btn-danger" onClick={this.removeTasks}>
+            <button type="button" className="btn btn-danger" onClick={this.deleteTasks}>
               <span className="fa fa-trash mr-5" />Xóa
             </button>
           </td>

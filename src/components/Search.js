@@ -16,7 +16,7 @@ class Search extends Component {
     })
   }
   onSearch = () => {
-    this.props.onSearch(this.state.search)
+    this.props.searchTask(this.state.search)
   }
   render() {
     return (

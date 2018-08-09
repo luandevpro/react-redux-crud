@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import TaskItem from "./TaskItem";
 
 class TaskList extends Component {
   constructor(props){
@@ -17,14 +16,14 @@ class TaskList extends Component {
       {
         [name]: value
       },
-      () => this.props.onFilter(
+      () => this.props.filterTasks(
         name === 'filterName' ? value : this.state.filterName,
         name === 'filterStatus' ? value : this.state.filterStatus
       )
     )
   }
   render() {
-    const {tasks ,updateStatus ,removeTasks ,onUpdateTasks} = this.props;
+    const { children } = this.props;
     return (
       <div className="row mt-15">
         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -64,16 +63,7 @@ class TaskList extends Component {
                 <td />
               </tr>
               {
-                tasks.map((task,index) => {
-                  return <TaskItem 
-                            key={index} 
-                            tasks={task} 
-                            index={index} 
-                            updateStatus={updateStatus} 
-                            removeTasks={removeTasks}
-                            onUpdateTasks={onUpdateTasks}
-                          />
-                })
+                children
               }
             </tbody>          
           </table>

@@ -16,7 +16,7 @@ class Sort extends Component {
         by: sortBy,
         value: sortValue
       }
-    },this.props.onSort(sortBy,sortValue))
+    },this.props.sortTask(sortBy,sortValue))
   }
   render() {
     var {sort} = this.state;

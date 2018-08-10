@@ -1,18 +1,10 @@
 import * as Types from './../constants/ActionTypes'
+import { findIndex } from 'lodash'
 var randomstring = require('randomstring');
 
 var data = JSON.parse(localStorage.getItem('tasks'))
 var initialState = data ? data : []
 
-var findIndex = (state,id) => {
-   var result = -1
-   state.forEach((state,index) => {
-      if(state.id === id){
-         result = index
-      }
-   });
-   return result
-}
 const appReducers = (state = initialState , action) => {
    var index = -1
    var { id } = action
@@ -20,7 +12,7 @@ const appReducers = (state = initialState , action) => {
       case Types.LIST_ALL:
          return [...state] 
       case Types.UPDATE_STATUS:
-         index = findIndex(state,id)
+         index = findIndex(state,task => { return task.id === id })
          state[index].status = !state[index].status
          localStorage.setItem('tasks', JSON.stringify(state))
          return [...state]
@@ -31,7 +23,7 @@ const appReducers = (state = initialState , action) => {
             status: action.tasks.status
          }
          if(newTasks.id){
-            index = findIndex(state, newTasks.id)
+            index = findIndex(state,task => { return task.id === newTasks.id })
             state[index] = action.tasks
          }else {
             newTasks.id = randomstring.generate()
@@ -40,7 +32,7 @@ const appReducers = (state = initialState , action) => {
          localStorage.setItem('tasks', JSON.stringify(state))
          return [...state]
       case Types.DELETE_TASKS:
-         index = findIndex(state,id)
+         index = findIndex(state,task => { return task.id === id})
          if(index !== -1){
             state.splice(index,1)
          }

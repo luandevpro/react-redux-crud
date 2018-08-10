@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { filter , orderBy } from 'lodash'
 import * as actions from './../actions/index'
 import TaskItem from './../components/TaskItem'
 import TaskList from './../components/TaskList'
@@ -18,30 +19,34 @@ class TaskContainer extends Component {
       } = this.props
 
       if(filterTask.by !== ""){
-         tasks = tasks.filter((task) => {
+         tasks = filter(tasks , task => {
             return task.name.toLowerCase().indexOf(filterTask.by.toLowerCase()) !== -1
          })
       }
-      tasks = tasks.filter((task) => {
+      tasks = filter(tasks , task => {
          if(filterTask.value === -1){ return task}
-         else{ return filterTask.value === (task.status ? 1 : 0)}
+         else{ return filterTask.value === (task.status ? 1 : 0)}  
       })
       if(searchTask !== ""){
-         tasks = tasks.filter(task => task.name.toLowerCase().indexOf(searchTask.toLowerCase()) !== -1)
+         tasks = filter(tasks, task => { 
+            return task.name.toLowerCase().indexOf(searchTask.toLowerCase()) !== -1
+         })
       }
       if(sortTask){
          if(sortTask.by  === "name"){
-            tasks.sort((a,b) => {
-               if(a.name < b.name) return -sortTask.value;
-               if(a.name > b.name) return sortTask.value;
-               else if(a.name === b.name) return 0;
-            })
+            if(sortTask.value === 1){
+               tasks = orderBy(tasks , ['name'] , ['asc' ])
+            }else if(sortTask.value === -1){
+               tasks = orderBy(tasks , ['name'] , ['desc' ])
+            }else if(sortTask.value == 0) {
+               tasks
+            }
          }else{
-            tasks.sort((a,b) => {
-               if(a.status > b.status) return -sortTask.value;
-               if(a.status < b.status) return sortTask.value;
-               else return 0;
-            })
+            if(sortTask.value === -1){
+               tasks = orderBy(tasks , ['status'] , ['asc'])
+            }else if(sortTask.value ===  1){
+               tasks = orderBy(tasks , ['status'] , ['desc'])
+            }
          }
       }
 
